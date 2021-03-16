@@ -41,5 +41,133 @@ Com que Haskell treballa amb programació funcional, si ara fessim una altre dec
 
 Finalment editem el color del cercle, buscant a la documentació deñ mòdul Drawing trobem com es fa:
 `myDrawing = colored green (solidCircle 1)` i tenim el següent output:
-![green Solid Circle](Dragster.jpg)
+![green Solid Circle]([Dragster.jpg](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2012.21.46.png))
+
+
+**Exercici 2**
+Realitzem un programa que dibuixi un semàfor:
+```
+import Drawing
+
+topCircle c y = colored c (translated 0 y (solidCircle 1))
+-- medCircle c y = colored c (translated 0 y (solidCircle 1))
+botCircle c y = colored c (translated 0 y (solidCircle 1))
+
+
+frame = rectangle 2.5 5
+trafficLight = botCircle green (-1.1) <> topCircle red 1.1 <> frame
+
+myDrawing :: Drawing
+myDrawing = trafficLight
+
+main = svgOf (myDrawing)
+```
+
+Si el compilem i mirem l'output que ens dona:
+![green red Solid Circle]([Dragster.jpg](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2012.21.46.png))
+
+
+**Exercici 3**
+Codi:
+```
+import Drawing
+botCircle c = colored c (translated 0 (-1.5) (solidCircle 1))
+botCircle c = colored c (translated 0 1.5 (solidCircle 1))
+frame = rectangle 2.5 5
+
+trafficLight = botCircle green <> topCircle red <> frame
+
+lights 0 m=blank
+lights n m = translated (3*n) m (trafficLight) <> lights (n-1) m
+
+myDrawing = lights 3 0 <> lights 3 6 <> lights 3 12
+main :: IO ()
+main = svgOf myDrawing
+```
+
+Output:
+![array semafors]([Dragster.jpg](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2012.21.46.png))
+
+
+**Exercici 4**
+Codi:
+```
+import Drawing
+
+trunk :: Drawing
+trunk = polyline ([(0,0).(0,1)])
+
+tree :: Int -> Drawing
+tree 0 = colored yellow (circle 0.5)
+tree m = trunk <> translated 0 1 (rotated(pi/10) branch) <> translated 0 1 (rotated(-pi/10) branch)
+    where branch = tree (m-1)
+
+myDrawing = tree 8
+main :: IO ()
+main = svgOf myDrawing
+```
+
+Output:
+![arbre]([Dragster.jpg](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2012.21.46.png))
+
+**Exercici 5**
+
+Fins ara hem estat fent repeticions d'un cert patró nosaltres mateixos, ara ho farem amb una funció `repeatDraw`, tot i que Haskell incorpora una funció que també resol aquest problema (`foldMap :: (Foldable t, Monoid m) => (a -> m) -> t a -> m`)
+
+codi:
+```
+import Drawing
+botCircle c = colored c (translated 0 (-1.5) (solidCircle 1))
+topCircle c = colored c (translated 0 1.5 (solidCircle 1))
+frame = rectangle 2.5 5
+
+trafficLight = botCircle green <> topCircle red <> frame
+
+repeatDraw :: (Int -> Drawing) -> Int -> Drawing
+repeatDraw thing 0 = blank
+repeatDraw thing n = thing n <> repeatDraw thing (n-1)
+
+myDrawing = repeatDraw lightRow 3
+lightRow :: Int -> Drawing
+lightRow r = repeatDraw ( light r ) 3
+light :: Int -> Int -> Drawing
+light r c = translated ( 3*fromIntegral c - 6) ( 8*fromIntegral r-16) trafficLight
+
+main :: IO ()
+main = svgOf myDrawing
+```
+
+Output
+![repeatDraw]([Dragster.jpg](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2012.21.46.png))
+
+
+**Exercici 6**
+
+Donada una llista de n punts, dibuixar n semàfors situats en les corresponents posicions, usant les funcions *foldMap* i *trafficLight*.
+
+codi
+```
+import Drawing
+topCircle c = colored c (translated 0 (1.5) (solidCircle 1))
+botCircle c = colored c (translated 0 (-1.5) (solidCircle 1))
+frame = rectangle 2.5 5
+
+trafficLight = botCircle green <> topCircle red <> frame
+
+trafficLights :: [(Double, Double)] -> Drawing
+light :: (Double, Double) -> Drawing
+light r = translated (fst r) (snd r) trafficLight
+trafficLights list = foldMap light list
+
+cord = [(-9,9),(9,9),(0,9),(0,0),(-9,0),(9,0),(-9,-9),(9,-9),(0,-9)]
+
+myDrawing :: Drawing
+myDrawing = trafficLights cord
+
+main :: IO ()
+main = svgOf myDrawing
+```
+
+
+### Segona Part: Interacció i modificació d'estat
 
