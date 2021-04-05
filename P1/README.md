@@ -63,7 +63,7 @@ main = svgOf myDrawing
 ```
 
 Si el compilem i mirem l'output que ens dona:
-![green red Solid Circle](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2012.46.06.png)
+![green red Solid Circle](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2013.50.00.png)
 
 
 **Exercici 3**
@@ -90,7 +90,7 @@ main = svgOf myDrawing
 ```
 
 Output:
-![array semafors](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2012.46.23.png)
+![array semafors](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2013.55.40.png)
 
 Ara que tenim una fila de 3, anem a fer la columna també de 3:
 ```
@@ -113,7 +113,7 @@ main = svgOf myDrawing
 ```
 
 Output:
-![array semafors](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2012.46.23.png)
+![array semafors](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2015.56.44.png)
 
 
 **Exercici 4**
@@ -140,7 +140,7 @@ main = svgOf myDrawing
 Afegeixo directament la foto amb les flors, sense només caldria posar m = 0.
 
 Output:
-![arbre](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2012.50.45.png)
+![arbre](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2015.49.35.png)
 
 **Exercici 5**
 
@@ -171,7 +171,7 @@ main = svgOf myDrawing
 Executem `run-main myDrawing.hs > ~/public_html_/prac1/ex5.svg`
 
 Output
-![repeatDraw](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2013.01.22.png)
+![repeatDraw](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2015.56.44.png)
 
 
 **Exercici 6**
@@ -200,7 +200,7 @@ main :: IO ()
 main = svgOf myDrawing
 ```
 Output
-![repeatDraw](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2014.12.42.png)
+![repeatDraw](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
 
 
 
