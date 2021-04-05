@@ -32,8 +32,8 @@ main :: IO ( )
 main = svgOf myDrawing
 ```
 
-I l'executem així: `run-main myDrawing.hs > ex0.svg`
-Per visualitzar-lo introduïm la següent URL al nostre navegador: http://soft0.upc.edu/~ldatusrXX/practiques/prac1/ex0.svg
+I el compilem i executem així: `run-main myDrawing.hs > ~/publich_html_/prac1/ex0.svg`
+Per visualitzar-lo introduïm la següent URL al nostre navegador: http://soft0.upc.edu/~ldatusrXX/practiques/prac1/ex0.svg amb el nostre usuari de dat en comptes de les XX.
 
 Modifiquem el programa canviant `myDrawing = solidCircle 1` per veure un cercle de color negre i radi 1.
 
@@ -47,19 +47,19 @@ Finalment editem el color del cercle, buscant a la documentació deñ mòdul Dra
 **Exercici 2**
 Realitzem un programa que dibuixi un semàfor:
 ```
+
 import Drawing
 
-topCircle c y = colored c (translated 0 y (solidCircle 1))
-medCircle c y = colored c (translated 0 y (solidCircle 1))
-botCircle c y = colored c (translated 0 y (solidCircle 1))
-frame = rectangle 3.5 10
+colorCircle c y = colored c (translated 0 y (solidCircle 1))
 
-trafficLight = botCircle green (-1.1) <> medCircle orange 0.1 <> topCircle red 1.1 <> frame
+frame = rectangle 2.5 7.5
 
-myDrawing :: Drawing
-myDrawing = trafficLight
+trafficLight = frame <> colorCircle green (-2.5) <> colorCircle yellow 0 <> colorCircle red 2.5
 
-main = svgOf (myDrawing)
+main :: IO ()
+main = svgOf myDrawing
+
+
 ```
 
 Si el compilem i mirem l'output que ens dona:
@@ -67,20 +67,46 @@ Si el compilem i mirem l'output que ens dona:
 
 
 **Exercici 3**
+
+He anat modificant el codi del fitxer `myDrawing.hs` en cada exercici, per això és possible que només veiem un fitxer per a tots els exercicis de la primera part.
+
 Codi:
 ```
 import Drawing
-topCircle c y = colored c (translated 0 y (solidCircle 1))
-medCircle c y = colored c (translated 0 y (solidCircle 1))
-botCircle c y = colored c (translated 0 y (solidCircle 1))
-frame = rectangle 3.5 10
 
-trafficLight = botCircle green (-1.1) <> medCircle orange 0.1 <> topCircle red 1.1 <> frame
+colorCircle c y = colored c (translated 0 y (solidCircle 1))
+frame = rectangle 2.5 7.5
+trafficLight = frame <> colorCircle green (-2.5) <> colorCircle yellow 0 <> colorCircle red 2.5
 
-lights 0 m=blank
-lights n m = translated (3*n) m (trafficLight) <> lights (n-1) m
+lights :: Int -> Drawing
+lights 0 = blank
+lights n = translated (3 * fromIntegral n) 0 trafficLight <> lights (n-1)
 
-myDrawing = lights 3 0 <> lights 3 6 <> lights 3 12
+myDrawing = lights 3
+
+main :: IO ()
+main = svgOf myDrawing
+
+```
+
+Output:
+![array semafors](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2012.46.23.png)
+
+Ara que tenim una fila de 3, anem a fer la columna també de 3:
+```
+import Drawing
+
+colorCircle c y = colored c (translated 0 y (solidCircle 1))
+frame = rectangle 2.5 7.5
+trafficLight = frame <> colorCircle green (-2.5) <> colorCircle yellow 0 <> colorCircle red 2.5
+
+lights :: Int -> Drawing
+lights (-2) = blank
+lights n = translated (3 * fromIntegral n) 0 trafficLight <> lights (n-1)
+row y = (translated 0 (y) (lights 1))
+matrix = row 8 <> row 0 <> row (-8)
+
+myDrawing = matrix
 
 main :: IO ()
 main = svgOf myDrawing
@@ -91,15 +117,18 @@ Output:
 
 
 **Exercici 4**
+
+Per aquest exercici si que he creat un altre fitxer ja que és diferent als dels semàfors.
+
 Codi:
 ```
 import Drawing
 
 trunk :: Drawing
-trunk = polyline ([(0,0).(0,1)])
+trunk = polyline ([(0,0),(0,1)])
 
 tree :: Int -> Drawing
-tree 0 = colored yellow (circle 0.5)
+tree 0 = colored yellow (circle 0.25)
 tree m = trunk <> translated 0 1 (rotated(pi/10) branch) <> translated 0 1 (rotated(-pi/10) branch)
     where branch = tree (m-1)
 
@@ -107,6 +136,8 @@ myDrawing = tree 8
 main :: IO ()
 main = svgOf myDrawing
 ```
+
+Afegeixo directament la foto amb les flors, sense només caldria posar m = 0.
 
 Output:
 ![arbre](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2012.50.45.png)
@@ -118,12 +149,10 @@ Fins ara hem estat fent repeticions d'un cert patró nosaltres mateixos, ara ho 
 codi:
 ```
 import Drawing
-botCircle c = colored c (translated 0 (-1.5) (solidCircle 1))
-medCircle c = colored c (translated 0 0 (solidCircle 1))
-topCircle c = colored c (translated 0 1.5 (solidCircle 1))
-frame = rectangle 3.5 10
 
-trafficLight = botCircle green <> medCircle yellow <> topCircle red <> frame
+colorCircle c y = colored c (translated 0 y (solidCircle 1))
+frame = rectangle 2.5 7.5
+trafficLight = frame <> colorCircle green (-2.5) <> colorCircle yellow 0 <> colorCircle red 2.5
 
 repeatDraw :: (Int -> Drawing) -> Int -> Drawing
 repeatDraw thing 0 = blank
@@ -131,13 +160,15 @@ repeatDraw thing n = thing n <> repeatDraw thing (n-1)
 
 myDrawing = repeatDraw lightRow 3
 lightRow :: Int -> Drawing
-lightRow r = repeatDraw ( light r ) 3
+lightRow r = repeatDraw (light r) 3
 light :: Int -> Int -> Drawing
-light r c = translated ( 3*fromIntegral c - 6) ( 8*fromIntegral r-16) trafficLight
+light r c = translated (3 * fromIntegral c - 6) (8*fromIntegral r-16) trafficLight
+
 
 main :: IO ()
 main = svgOf myDrawing
 ```
+Executem `run-main myDrawing.hs > ~/public_html_/prac1/ex5.svg`
 
 Output
 ![repeatDraw](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2013.01.22.png)
@@ -150,21 +181,20 @@ Donada una llista de n punts, dibuixar n semàfors situats en les corresponents 
 codi
 ```
 import Drawing
-topCircle c = colored c (translated 0 (1.5) (solidCircle 1))
-botCircle c = colored c (translated 0 (-1.5) (solidCircle 1))
-frame = rectangle 2.5 5
 
-trafficLight = botCircle green <> topCircle red <> frame
+colorCircle c y = colored c (translated 0 y (solidCircle 1))
+frame = rectangle 2.5 7.5
+trafficLight = frame <> colorCircle green (-2.5) <> colorCircle yellow 0 <> colorCircle red 2.5
 
 trafficLights :: [(Double, Double)] -> Drawing
 light :: (Double, Double) -> Drawing
 light r = translated (fst r) (snd r) trafficLight
 trafficLights list = foldMap light list
 
-cord = [(-9,9),(9,9),(0,9),(0,0),(-9,0),(9,0),(-9,-9),(9,-9),(0,-9)]
+cord = [(0,0), (0,9), (0,-9), (9, 0), (-9, 0), (9,9), (-9,9), (9, -9), (-9, -9)]
 
 myDrawing :: Drawing
-myDrawing = trafficLights cord
+myDrawing = trafficLights cord 
 
 main :: IO ()
 main = svgOf myDrawing
