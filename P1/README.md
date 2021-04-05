@@ -50,12 +50,11 @@ Realitzem un programa que dibuixi un semàfor:
 import Drawing
 
 topCircle c y = colored c (translated 0 y (solidCircle 1))
--- medCircle c y = colored c (translated 0 y (solidCircle 1))
+medCircle c y = colored c (translated 0 y (solidCircle 1))
 botCircle c y = colored c (translated 0 y (solidCircle 1))
+frame = rectangle 3.5 10
 
-
-frame = rectangle 2.5 5
-trafficLight = botCircle green (-1.1) <> topCircle red 1.1 <> frame
+trafficLight = botCircle green (-1.1) <> medCircle orange 0.1 <> topCircle red 1.1 <> frame
 
 myDrawing :: Drawing
 myDrawing = trafficLight
@@ -71,16 +70,18 @@ Si el compilem i mirem l'output que ens dona:
 Codi:
 ```
 import Drawing
-botCircle c = colored c (translated 0 (-1.5) (solidCircle 1))
-botCircle c = colored c (translated 0 1.5 (solidCircle 1))
-frame = rectangle 2.5 5
+topCircle c y = colored c (translated 0 y (solidCircle 1))
+medCircle c y = colored c (translated 0 y (solidCircle 1))
+botCircle c y = colored c (translated 0 y (solidCircle 1))
+frame = rectangle 3.5 10
 
-trafficLight = botCircle green <> topCircle red <> frame
+trafficLight = botCircle green (-1.1) <> medCircle orange 0.1 <> topCircle red 1.1 <> frame
 
 lights 0 m=blank
 lights n m = translated (3*n) m (trafficLight) <> lights (n-1) m
 
 myDrawing = lights 3 0 <> lights 3 6 <> lights 3 12
+
 main :: IO ()
 main = svgOf myDrawing
 ```
@@ -118,10 +119,11 @@ codi:
 ```
 import Drawing
 botCircle c = colored c (translated 0 (-1.5) (solidCircle 1))
+medCircle c = colored c (translated 0 0 (solidCircle 1))
 topCircle c = colored c (translated 0 1.5 (solidCircle 1))
-frame = rectangle 2.5 5
+frame = rectangle 3.5 10
 
-trafficLight = botCircle green <> topCircle red <> frame
+trafficLight = botCircle green <> medCircle yellow <> topCircle red <> frame
 
 repeatDraw :: (Int -> Drawing) -> Int -> Drawing
 repeatDraw thing 0 = blank
