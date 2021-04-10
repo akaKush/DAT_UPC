@@ -215,7 +215,7 @@ Llavors exectuem `bin/make-cgi src/exemple.hs`, el qual ens compila els arxius q
 
 Observem al navegador la següent URL: http://soft0.upc.edu/~ldatusr14/practica1/exemple.cgi 
 
-![exemple_2.1](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![exemple_2.1]()
 
 
 **Exercici 1**
@@ -223,32 +223,32 @@ Observem al navegador la següent URL: http://soft0.upc.edu/~ldatusr14/practica1
 En aquesta primera part simplement creem el taulell del joc.
 Editem l'arxiu Draw del directori Life tal que:
 
-![codi_2.1](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![codi_2.1](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-06%20a%20les%2018.20.13.png)
 
-![output_2.1](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![output_2.1](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-06%20a%20les%2018.18.47.png)
 
 Veiem com podem anar apretant celes i aquestes es tornen de color negre (vives) o tornar-les a apretar perquè estiguin blanques (mortes), i que si apretem la tecla 'N' passem a la següent generació.
 
-![segona-gen_2.1](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![segona-gen_2.1](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-06%20a%20les%2018.24.12.png)
 
 **Exercici 2**
 
 Al segon pas consisteix en afegir un control per mostrar i ocultar una graella en el taulell , així és més fàcil visualitzar l'espai per les diferents cel·les.
 
 Per fer-ho completem el mòdul `Main` (`src/life-2.hs`)
-![codi_2.2](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![codi_2.2](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2012.58.25.png)
 
 Veiem l'output a la URL http://soft0.upc.edu/~ldatusr14/practica1/life-2.cgi:
 
-![NoGridMode](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![NoGridMode](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2012.57.51.png)
 
 Per canviar de mode premem la tecla "G":
 
-![LivesGridMode](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![LivesGridMode](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2013.01.00.png)
 
 Si la premem un altre cop passem al ViewGridMode
 
-![ViewGridMode](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![ViewGridMode](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2013.01.09.png)
 
 
 **Exercici 3**
@@ -259,23 +259,21 @@ Per això, definim nous camps `gmZoom` i `gmShift` en l’estat del joc `Game` a
 
 Veiem el codi que hem desenvolupat per aquest exercici:
 
+![codi ex3](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2015.01.50.png)
 
 Per veure l'output anem a la URL http://soft0.upc.edu/~ldatusr14/practica1/life-3.cgi :
 
 Estat inicial:
-![Estat inicial ex3](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![Estat inicial ex3](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2013.17.01.png)
 
 Zoom In (apretant tecla "I"):
-![ZoomIn](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
-
-Apretant "ARROWUP":
-![ARROWUP](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![ZoomIn](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2013.18.03.png)
 
 Apretant tecla "O" (Zoom Out) i algunes ARROWRIGHT i ARROWDOWN:
-![zoomout + moving](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![zoomout + moving](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2013.19.00.png)
 
 Utilitzant el "GridMode" i movent-nos cap a l'esquerra i avall desde l'estat inicial:
-![gridMode + moving](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![gridMode + moving](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2013.22.21.png)
 
 He vist que si utilitzes el LivesGrid mode (i també amb el ViewGrid) la graella no s'actualitza quan es mou pel taulell, però qua reinicies a l'estat inicial ho pots executar correctament.
 
@@ -287,22 +285,22 @@ de l’evolució automàtica.
 
 El codi per aquest exercici és el següent:
 
-![codi ex4](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![codi ex4](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2013.44.09.png)
 
 Output estat inicial amb grid activat:
-![gridMode + estat inicial](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![gridMode + estat inicial](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2013.46.58.png)
 
 Si apretem l'espai " " veiem com evolucionen les cel·les a la següent generació, i podem regular el temps que volem que canviin de generació amb les teclet "+" i "-":
 
- ![gridMode + nextGen](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+ ![gridMode + nextGen](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2013.48.22.png)
 
- ![gridMode + nextGen](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+ ![gridMode + nextGen](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2013.48.29.png)
 
 També les podem moure com a l'anterior exercici pel taulell, i activar noves cel·les, les quals també canviaran de generació si apretem l'espai.
 
-![generació inicial + liveCells random](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![generació inicial + liveCells random](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2013.50.00.png)
 
-![new gen + livecells](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![new gen + livecells](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2013.52.20.png)
 
 
 **Exercici 5**
@@ -310,14 +308,13 @@ També les podem moure com a l'anterior exercici pel taulell, i activar noves ce
 En aquest últim exercici afegirem en el dibuix una mica de text que expliqui l'estat d'algun paràmetre del joc, i en mode pausa, una ajuda de les tecles que canvien els paràmetres del joc.
 
 Per fer-ho modifiquem el codi de Main de l'apartat anterior tal que:
-![new gen + livecells](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
-
+![new gen + livecells](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2014.25.08.png)
 
 I també modifiquem la última part:
-![new gen + livecells](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![new gen + livecells](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2014.25.21.png)
 
 Veiem el primer output quan entrem a la URL de l'apartat anterior:
-![new gen + livecells](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
+![new gen + livecells](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-10%20a%20les%2014.24.10.png)
 
 Si apretem espai i ens canviem de generació veiem com desapareix el text d'ajuda, i quan el tornem a apretar aquest torna a aparèixer.
 
@@ -325,4 +322,4 @@ Per veure més, accedir a http://soft0.upc.edu/~ldatusr14/practica1/life-4.cgi
 
 
 
-Marc Bosch Sarquella, DAT, UPC 2021
+Marc Bosch Sarquella, DAT, UPC 2021.
