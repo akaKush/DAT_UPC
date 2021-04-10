@@ -215,7 +215,7 @@ Llavors exectuem `bin/make-cgi src/exemple.hs`, el qual ens compila els arxius q
 
 Observem al navegador la següent URL: http://soft0.upc.edu/~ldatusr14/practica1/exemple.cgi 
 
-![exemple_2.1]()
+![exemple_2.1](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-06%20a%20les%2017.48.30.png)
 
 
 **Exercici 1**
