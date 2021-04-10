@@ -41,7 +41,7 @@ Com que Haskell treballa amb programació funcional, si ara fessim una altre dec
 
 Finalment editem el color del cercle, buscant a la documentació deñ mòdul Drawing trobem com es fa:
 `myDrawing = colored green (solidCircle 1)` i tenim el següent output:
-![green Solid Circle](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2012.21.46.png)*green Solid Circle*
+![green Solid Circle](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-03-16%20a%20les%2012.21.46.png)
 
 
 **Exercici 2**
