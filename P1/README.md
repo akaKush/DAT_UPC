@@ -203,6 +203,7 @@ Output
 ![repeatDraw](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-05%20a%20les%2016.05.18.png)
 
 
+---
 
 ### Segona Part: Interacció i modificació d'estat
 
