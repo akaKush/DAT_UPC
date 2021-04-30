@@ -178,7 +178,7 @@ En el cas d'aquest exercici fem servir la funció fmap per a incrementar en 1 le
 
 Un cop compilat i incrustat tot al html, veiem el següent resultat:
 
-![foto visites](https://github.com/akaKush/DAT_UPC/blob/main/P1/images/Captura%20de%20Pantalla%202021-04-06%20a%20les%2018.20.13.png)
+![foto visites](https://github.com/akaKush/DAT_UPC/blob/main/P2/images_p2/Captura%20de%20Pantalla%202021-04-30%20a%20les%2012.02.53.png)
 
 *Nota: Important treballar amb el directori prog-web que hem descomprimit, A DINS de un directori de la practica2, el qual es troba dins de public_html. Si no ho fem així l'script bin/make-cgi src/counter.hs NO compila ja que no troba el path correcte.*
 
