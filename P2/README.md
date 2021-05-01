@@ -87,6 +87,9 @@ href="https://akakush.github.io/marcbs/index.html">meva web</a>;).</p>
 </html>
 ```
 
+![index.html](https://github.com/akaKush/DAT_UPC/blob/main/P2/images_p2/Captura%20de%20Pantalla%202021-05-01%20a%20les%2010.45.39.png)
+
+
 Un cop fet el índex dins la carpeta **public_html**, també creem un nou index.html dins el directori de la pràctica 2 i posem una llista de les diferents activitats que té aquesta pràctica:
 
 ```
@@ -119,9 +122,13 @@ Un cop fet el índex dins la carpeta **public_html**, també creem un nou index.
 
 ```
 
+![index p2](https://github.com/akaKush/DAT_UPC/blob/main/P2/images_p2/Captura%20de%20Pantalla%202021-05-01%20a%20les%2010.55.38.png)
+
 Ara per a fer la primera part, corresponent al cgi que ens indica el dia i la hora, copiem el codi que se'ns proporciona a l'enunciat per aquest cgi, a un nou arxiu dins la carpeta de la pràctica 2 (dia_hora.cgi).
 
 Per accedir a aquest cgi primer li hem de donar permisos `chmod +x dia_hora.cgi`, i llavors afegim la URL del cgi per accedir-hi desde l'index.html de la pràctica 2.
+
+![cgi data hora](https://github.com/akaKush/DAT_UPC/blob/main/P2/images_p2/Captura%20de%20Pantalla%202021-05-01%20a%20les%2011.00.00.png)
 
 ## Comptador de visites
 
