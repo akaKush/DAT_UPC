@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>Pràctica 2 DAT</title>
+	</head>
+<body>
+<h1>Pràctica 2 DAT</h1>
+
+<p>Podeu veure aquesta pràctica explicada pas per pas també a la <a href="[https://github.com/akaKush/DAT%5C_UPC/tree/main/P2]">pràctica 2 de GitHub</a></p>
+
+<h2>Primeres pàgines HTML</h2>
+
+<p>Fem una pàgina simple amb la URL <a href="http://soft0.upc.edu/~ldatusr14/">http://soft0.upc.edu/ldatusr14/</a>. Per fer-ho creem un arxiu anomenat <code>index.html</code> a la carpeta <em>public<em>html</em></em> del nostre usuari de DAT.</p>
+
+<p>El codi HTML utilitzat és el proveït per la plantilla donada a l&#39;enunciat de la pràctica:</p>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+   &lt;meta charset=&quot;UTF-8&quot;&gt;
+   &lt;title&gt;El títol de la vostra pàgina&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h2&gt;Títols (capçaleres) de diferents nivells (h1/h2/h3/h4/h5/h6)&lt;/h2&gt;
+
+&lt;h3&gt;Un títol de nivell inferior&lt;/h3&gt;
+
+&lt;p&gt;Paràgrafs de text
+(múltiples
+línies).
+&lt;br&gt;
+Línia separada
+&lt;/p&gt;
+
+&lt;p&gt;Llista ordenada (numerada):&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt; Item 1&lt;/li&gt;
+&lt;li&gt; Item 2&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Llista no numerada:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt; Item 1&lt;/li&gt;
+&lt;li&gt; Item 2&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Enllaç (&lt;em&gt;hyperlink&lt;/em&gt;) a una altra URL. Per exemple a la &lt;a
+href=&quot;https://akakush.github.io/marcbs/index.html&quot;&gt;meva web&lt;/a&gt;.&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p>Tot i que el modifiquem per a que serveixi com a índex de les diferents pràctiques de l&#39;assignatura, i ens queda així:</p>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+   &lt;meta charset=&quot;UTF-8&quot;&gt;
+   &lt;meta charset=&quot;viewport&quot; comtent=&quot;width=device-width , initial-scale=1.0&quot;&gt;
+   &lt;title&gt;DAT - Marc Bosch&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h2&gt;Llistat de les pràctiques de DAT&lt;/h2&gt;
+
+&lt;ol&gt;
+   &lt;a href=&quot;http://soft0.upc.edu/~ldatusr14/practica1/life-4.cgi&quot;&gt;
+      &lt;li&gt; Pràctica 1&lt;/li&gt;
+   &lt;/a&gt;
+   &lt;a href=&quot;/public_html/practica2/index.html&quot;&gt;
+      &lt;li&gt; Pràctica 2&lt;/li&gt;
+   &lt;/a&gt;
+   &lt;a href=&quot;# Not done yet&quot;&gt;
+      &lt;li&gt; Pràctica 3&lt;/li&gt;
+   &lt;/a&gt;
+   &lt;a href=&quot;# Not done yet&quot;&gt;
+      &lt;li&gt; Pràctica 4&lt;/li&gt;
+   &lt;/a&gt;
+&lt;/ol&gt;
+
+
+
+&lt;p&gt;Enllaç (&lt;em&gt;hyperlink&lt;/em&gt;) a una altra URL. Per exemple a la &lt;a
+href=&quot;https://akakush.github.io/marcbs/index.html&quot;&gt;meva web&lt;/a&gt;;).&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p>Al navegador veiem així:</p>
+
+<figure><img src="Captura%20de%20Pantalla%202021-05-01%20a%20les%2010.45.39.png"/></figure>
+
+<p>Un cop fet el índex dins la carpeta <strong>public<em>html</em></strong>, també creem un nou index.html dins el directori de la pràctica 2 i posem una llista de les diferents activitats que té aquesta pràctica:</p>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+   &lt;meta charset=&quot;UTF-8&quot;&gt;
+   &lt;meta charset=&quot;viewport&quot; comtent=&quot;width=device-width , initial-scale=1.0&quot;&gt;
+   &lt;title&gt;Pràctica 2 DAT - Marc Bosch&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h2&gt;Llistat de les pràctiques de DAT&lt;/h2&gt;
+
+&lt;ol&gt;
+   &lt;a href=&quot;http://soft0.upc.edu/~ldatusr14/practica2/dia_hora.cgi&quot;&gt;
+      &lt;li&gt; Dia i hora (CGI)&lt;/li&gt;
+   &lt;/a&gt;
+   &lt;a href=&quot;http://soft0.upc.edu/~ldatusr14/practica2/contador.html&quot;&gt;
+      &lt;li&gt; Comptador de visites&lt;/li&gt;
+   &lt;/a&gt;
+   &lt;a href=&quot;http://soft0.upc.edu/~ldatusr14/practica2/calc.cgi&quot;&gt;
+      &lt;li&gt; Realització d&#39;un monad Handler&lt;/li&gt;
+   &lt;/a&gt;
+&lt;/ol&gt;
+
+
+
+&lt;p&gt;Enllaç (&lt;em&gt;hyperlink&lt;/em&gt;) a una altra URL. Per exemple a la &lt;a
+href=&quot;https://akakush.github.io/marcbs/index.html&quot;&gt;meva web ;)&lt;/a&gt; .&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p>Mirem la url al navegador:</p>
+
+<figure><img src="Captura%20de%20Pantalla%202021-05-01%20a%20les%2010.55.38.png"/></figure>
+
+<p>Ara per a fer la primera part, corresponent al cgi que ens indica el dia i la hora, copiem el codi que se&#39;ns proporciona a l&#39;enunciat per aquest cgi, a un nou arxiu dins la carpeta de la pràctica 2 (dia<em>hora.cgi).
+</em></p>
+
+<p>Per accedir a aquest cgi primer li hem de donar permisos <code>chmod +x dia_hora.cgi</code>, i llavors afegim la URL del cgi per accedir-hi desde l&#39;index.html de la pràctica 2.</p>
+
+<figure><img src="Captura%20de%20Pantalla%202021-05-01%20a%20les%2011.00.00.png"/></figure>
+
+<p><em>Nota: Considero que no fa falta afegir estil amb css a aquests documents html ja que la intenció final és entendre més el codi i funcionament de Haskell que el de HTML i CSS.</em></p>
+
+<h2>Comptador de visites</h2>
+
+<p>Per aquest apartat primer descarreguem l&#39;arxiu del projecte que se&#39;ns dóna a l&#39;enunciat, i el descomprimim. Accedim a l&#39;arxiu /src/counter.hs i l&#39;editem perquè sigui un comptador de visites:</p>
+
+<pre><code>module Main
+where
+import System.IO
+import Control.Exception
+
+-- ****************************************************************
+
+main :: IO ()
+main = do
+    -- Llegeix el valor del fitxer comptador i l&#39;incrementa
+    -- Escriu el nou valor al fitxer comptador
+    -- Treu la sortida adeqüada (amb el nou valor)
+    -- (A completar per l&#39;estudiant)
+    x &lt;- fmap sumOne readCounter
+    writeCounter
+    putStrLn &quot;Content-Type: text/plain&quot;
+    putStrLn &quot;&quot;
+    putStrLn (show(sumOne x))
+
+sumOne :: Int -&gt; Int
+sumOne x = x+1
+
+readCounter :: IO Int
+readCounter = do
+    r &lt;- try $ do
+        h &lt;- openFile counterFilePath ReadMode
+        content &lt;- hGetLine h
+        hClose h
+        return $ read content
+    case (r :: Either SomeException Int) of
+        Right i -&gt; return i
+        Left exc -&gt; do
+            writeCounter 0
+            return 0
+
+writeCounter :: Int -&gt; IO ()
+writeCounter i = do
+    h &lt;- openFile counterFilePath WriteMode
+    hPutStrLn h $ show i
+    hClose h
+
+counterFilePath = &quot;counter.data&quot;</code></pre>
+
+<p>Fixem-nos que a l&#39;enunciat ens demana que sigui de tipus text/plain, i per això tenim la línia &quot;Content-Type: TIPUS<em>MIME&quot;.
+</em></p>
+
+<p>En el cas d&#39;aquest exercici fem servir la funció fmap per a incrementar en 1 les visites, perquè la funció readCounter ens retorna un Int.</p>
+
+<p>Un cop compilat i incrustat tot al html, veiem el següent resultat:</p>
+
+<figure><img src="Captura%20de%20Pantalla%202021-04-30%20a%20les%2012.02.53.png"/></figure>
+
+<p><em>Nota: Important treballar amb el directori prog-web que hem descomprimit, A DINS de un directori de la practica2, el qual es troba dins de public<em>html. Si no ho fem així l&#39;script bin/make-cgi src/counter.hs NO compila ja que no troba el path correcte.</em></em></p>
+
+<h2>Monad Handler</h2>
+
+<p>En aquest exercici busquem fer servir les diverses funcions específicades a l&#39;enunciat de la pràctica per acabar implementant una web app on trobem una calculadora de números complexes.</p>
+
+<p>Per fer-ho hem de completar el fitxer <em>Handler.hs</em> en diferents part del codi que ja se&#39;ns dóna fet.</p>
+
+<p>La primera part que cal modificar és la següent:</p>
+
+<pre><code>instance Applicative Handler where
+    -- tipus en aquesta instancia:
+    --      pure  :: a -&gt; Handler a
+    --      (&lt;*&gt;) :: Handler (a -&gt; b) -&gt; Handler a -&gt; Handler b
+    pure x =
+        -- (A completar per l&#39;estudiant)
+        HandlerC (\ req s0 -&gt; pure(x,s0))
+    HandlerC hf &lt;*&gt; HandlerC hx =
+        -- (A completar per l&#39;estudiant)
+        HandlerC (\ req s0 -&gt; do
+            (f, s1) &lt;- hf req s0
+            (x, s2) &lt;- hx req s1
+            pure (f x, s2))
+
+instance Monad Handler where
+    -- tipus en aquesta instancia:
+    --      (&gt;&gt;=) :: Handler a -&gt; (a -&gt; Handler b) -&gt; Handler b
+    HandlerC hx &gt;&gt;= f =
+        -- (A completar per l&#39;estudiant)
+        HandlerC $ \ req s0 -&gt; do
+            (x, s1) &lt;- hx req s0
+            let HandlerC hy = f x
+            hy req s1</code></pre>
+
+<p>Unes línies més avall modifiquem el següent:</p>
+
+<pre><code>-- Obte informació de l&#39;estat del handler
+getsHandlerState :: (HandlerState -&gt; a) -&gt; Handler a
+getsHandlerState f =
+    -- (A completar per l&#39;estudiant)
+    HandlerC (\ req s0 -&gt; pure (f s0, s0))
+
+-- Modifica l&#39;estat del handler
+modifyHandlerState :: (HandlerState -&gt; HandlerState) -&gt; Handler ()
+modifyHandlerState f =
+    -- (A completar per l&#39;estudiant)
+    HandlerC (\ req s0 -&gt; return ((), f s0))</code></pre>
+
+<p>Finalment trobem l&#39;últim tall a modificar:</p>
+
+<pre><code>-- Obte els valors associats al parametre de la peticio amb el nom indicat.
+lookupPostParams :: Text -&gt; Handler [Text]
+lookupPostParams name = do
+    -- Monad Handler:
+    mbparams &lt;- postParams
+    case mbparams of
+        Just params -&gt; -- params es una llista de parelles de tipus (Text, Text)
+            -- (A completar per l&#39;estudiant).
+            -- Caldra obtenir tots els valors (segon component) de les parelles que tenen el nom (primer component) igual al indicat.
+            -- NOTA: Useu les funcions
+            --   fst :: (a, b) -&gt; a
+            --   snd :: (a, b) -&gt; b
+            --   filter :: (a -&gt; Bool) -&gt; [a] -&gt; [a]
+            return (map snd (filter (\ param -&gt; fst param == name) params))
+        Nothing -&gt;
+            -- El contingut de la peticio no es un formulari. No hi ha valors.
+            pure []</code></pre>
+
+<p>Un cop editat tot el fitxer, el guardem i compilem amb <code>bin/make-cgi src/calc.hs</code> situats dins el directori <code>public_html/practica2/prog-web</code>.</p>
+
+<p>Per executar la calculadora i veure el seu funcionament ho podem fer al següent link: <a href="http://soft0.upc.edu/~ldatusr14/practica2/calc.cgi">http://soft0.upc.edu/ldatusr14/practica2/calc.cgi</a></p>
+
+<figure><img src="Captura%20de%20Pantalla%202021-05-01%20a%20les%2010.28.48.png"/></figure>
+
+</body>
+</html>
+
