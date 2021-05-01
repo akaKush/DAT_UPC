@@ -198,15 +198,63 @@ instance Applicative Handler where
     --      (<*>) :: Handler (a -> b) -> Handler a -> Handler b
     pure x =
         -- (A completar per l'estudiant)
-        HandlerC (\ req st0 -> pure(x, st0))
-
+        HandlerC (\ req s0 -> pure(x,s0))
     HandlerC hf <*> HandlerC hx =
         -- (A completar per l'estudiant)
-        HandlerC (\ req st0 --> do
-            (f, st1) <- hf req st0
-            (x, st2) <- hx req st1
-            pure (f x, st2)
-            )
+        HandlerC (\ req s0 -> do
+            (f, s1) <- hf req s0
+            (x, s2) <- hx req s1
+            pure (f x, s2))
 
+instance Monad Handler where
+    -- tipus en aquesta instancia:
+    --      (>>=) :: Handler a -> (a -> Handler b) -> Handler b
+    HandlerC hx >>= f =
+        -- (A completar per l'estudiant)
+        HandlerC $ \ req s0 -> do
+            (x, s1) <- hx req s0
+            let HandlerC hy = f x
+            hy req s1
 ```
 
+Unes línies més avall modifiquem el següent:
+```
+-- Obte informació de l'estat del handler
+getsHandlerState :: (HandlerState -> a) -> Handler a
+getsHandlerState f =
+    -- (A completar per l'estudiant)
+    HandlerC (\ req s0 -> pure (f s0, s0))
+
+-- Modifica l'estat del handler
+modifyHandlerState :: (HandlerState -> HandlerState) -> Handler ()
+modifyHandlerState f =
+    -- (A completar per l'estudiant)
+    HandlerC (\ req s0 -> return ((), f s0))
+```
+
+Finalment trobem l'últim tall a modificar:
+```
+-- Obte els valors associats al parametre de la peticio amb el nom indicat.
+lookupPostParams :: Text -> Handler [Text]
+lookupPostParams name = do
+    -- Monad Handler:
+    mbparams <- postParams
+    case mbparams of
+        Just params -> -- params es una llista de parelles de tipus (Text, Text)
+            -- (A completar per l'estudiant).
+            -- Caldra obtenir tots els valors (segon component) de les parelles que tenen el nom (primer component) igual al indicat.
+            -- NOTA: Useu les funcions
+            --   fst :: (a, b) -> a
+            --   snd :: (a, b) -> b
+            --   filter :: (a -> Bool) -> [a] -> [a]
+            return (map snd (filter (\ param -> fst param == name) params))
+        Nothing ->
+            -- El contingut de la peticio no es un formulari. No hi ha valors.
+            pure []
+```
+
+Un cop editat tot el fitxer, el guardem i compilem amb `bin/make-cgi src/calc.hs` situats dins el directori `public_html/practica2/prog-web`.
+
+Per executar la calculadora i veure el seu funcionament ho podem fer al següent link: http://soft0.upc.edu/~ldatusr14/practica2/calc.cgi
+
+![foto visites](https://github.com/akaKush/DAT_UPC/blob/main/P2/images_p2/Captura%20de%20Pantalla%202021-04-30%20a%20les%2012.02.53.png)
