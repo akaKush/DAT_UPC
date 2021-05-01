@@ -257,4 +257,4 @@ Un cop editat tot el fitxer, el guardem i compilem amb `bin/make-cgi src/calc.hs
 
 Per executar la calculadora i veure el seu funcionament ho podem fer al següent link: http://soft0.upc.edu/~ldatusr14/practica2/calc.cgi
 
-![foto visites](https://github.com/akaKush/DAT_UPC/blob/main/P2/images_p2/Captura%20de%20Pantalla%202021-04-30%20a%20les%2012.02.53.png)
+![foto visites](https://github.com/akaKush/DAT_UPC/blob/main/P2/images_p2/Captura%20de%20Pantalla%202021-05-01%20a%20les%2010.28.48.png)
