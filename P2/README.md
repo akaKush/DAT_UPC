@@ -1,6 +1,6 @@
-# Pràctca 2 DAT
+# Pràctica 2 DAT
 
-- [Pràctca 2 DAT](#pràctca-2-dat)
+- [Pràctica 2 DAT](#pràctica-2-dat)
   - [Primeres pàgines HTML](#primeres-pàgines-html)
   - [Comptador de visites](#comptador-de-visites)
   - [Monad Handler](#monad-handler)
@@ -265,3 +265,11 @@ Un cop editat tot el fitxer, el guardem i compilem amb `bin/make-cgi src/calc.hs
 Per executar la calculadora i veure el seu funcionament ho podem fer al següent link: http://soft0.upc.edu/~ldatusr14/practica2/calc.cgi
 
 ![foto visites](https://github.com/akaKush/DAT_UPC/blob/main/P2/images_p2/Captura%20de%20Pantalla%202021-05-01%20a%20les%2010.28.48.png)
+
+
+----
+
+Marc Bosch Sarquella
+DAT, UPC-ETSETB
+
+2021
