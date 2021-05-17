@@ -57,7 +57,6 @@ getHomeR = defaultLayout $ do
 main :: IO ()
 main = -- CGI adapter:  run :: Application -> IO ()
     toApp HelloWorld >>= run
-
 ```
 
 Llavors editem en el mateix directori un fitxer `make-hello`amb el següent script de shell:
