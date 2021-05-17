@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>Pràctica 3 DAT</title>
+	</head>
+<body>
+<h1>Pràctica 3 DAT</h1>
+
+<h1>Realització d&#39;un Fòrum simple</h1>
+
+<p>L&#39;objectiu d&#39;aquesta pràctica és fer una webapp clàssica (server-side app) utilitzant un framework específic de DAT per facilitar el desenvolupament.</p>
+
+<p>Es treballen els següents aspectes:</p>
+
+<ul>
+	<li>disseny basat en una arquitectura Model-View-Controller (MVC).</li>
+	<li>reutilització de classes i patrons proporcionats per un framework (DatFw).</li>
+	<li>manteniment de l&#39;estat de les sessions amb els clients.</li>
+	<li>autentificació d&#39;usuaris i funcionalitat depenent de l&#39;usuari.</li>
+	<li>accés a bases de dades per al manteniment persistent de la informació.</li>
+	<li>generació dinàmica del HTML. Definició dels components de visualització amb el llenguatge de plantilles de DatFw.</li>
+</ul>
+
+<p>Crearem una webapp que permeti la creació de diferents temes de discussió (fòrums) i la creació de qüestions (tòpics) i respostes.</p>
+
+<p>Abans però veurem un parell d&#39;exemples:</p>
+
+<h2>Hello World</h2>
+
+<p>Tracta d&#39;una una webapp que genera dinàmicament una pàgina HTML amb el text &quot;Hello World&quot;. Es podria fer de forma estàtica editant el fitxer HTML, però així veiem una introducció a <strong>DatFw</strong>.</p>
+
+<p>Primer creem un nou directori a dins del directori <code>practiques</code> (hello-world en el meu cas) i creem un fitxer a dins anomenat <code>hello.hs</code> i copiem el codi font:</p>
+
+<pre><code>{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeFamilies      #-}
+{-# LANGUAGE QuasiQuotes       #-}
+
+module Main
+where
+import Develop.DatFw
+import Develop.DatFw.Template
+import Network.Wai.Handler.CGI (run)
+
+-- Definicions basiques del lloc
+
+data HelloWorld = HelloWorld
+
+instance WebApp HelloWorld
+
+-- Rutes i &#39;dispatch&#39;
+
+instance RenderRoute HelloWorld where
+    data Route HelloWorld = HomeR
+    renderRoute HomeR   = ([], [])
+
+instance Dispatch HelloWorld where
+    dispatch =
+        routing $ route ( onStatic [] ) HomeR [ onMethod &quot;GET&quot; getHomeR ]
+
+-- &#39;Handlers&#39;
+
+getHomeR :: HandlerFor HelloWorld Html
+getHomeR = defaultLayout $ do
+    setTitle &quot;Hello&quot;
+    [widgetTempl| &lt;h1&gt;Hello World!&lt;/h1&gt; |]
+
+-- InicialitzaciÃ³
+
+main :: IO ()
+main = -- CGI adapter:  run :: Application -&gt; IO ()
+    toApp HelloWorld &gt;&gt;= run</code></pre>
+
+<p>Llavors editem en el mateix directori un fitxer <code>make-hello</code>amb el següent script de shell:</p>
+
+<pre><code>#!/bin/bash
+
+main_file=hello.hs
+exe_file=~/public_html/practica3/hello.cgi
+
+test -d ~/public_html/practica3 || mkdir -p ~/public_html/practica3
+source ~WEBprofe/usr/share/bin/do-make-exe.sh</code></pre>
+
+<p>Un cop ho tenim fet, li donem permisos d&#39;execució i ja podem compilar/instal·lar l&#39;exemple: (dins del directori (practiques/hello-world))</p>
+
+<pre><code>chmod +x make-hello
+./make-hello</code></pre>
+
+<p>Si ens dóna algun error, seguir els passos que ens indica, en el meu cas he hagut de donar permisos de lectura/escriptura a la carpeta on està ubicat l&#39;arxiu.</p>
+
+<p>Llavors podem veurel a <a href="http://soft0.upc.edu/~ldatusr14/practica3/hello.cgi/"><code>/public_html/practica3/hello.cgi</code></a></p>
+
+<p>És important fixar-se amb l&#39;enrutament d&#39;aquest exemple, veiem que només tenim una sola ruta (<code>Route HelloWorld</code>, <code>HomeR</code>), amb la seva funció de renderització i una funció d&#39;enviament de la petició al Handler corresponent.</p>
+
+<figure><img src="DraggedImage.png"/></figure>
+
+<h2>To-Do List</h2>
+
+<p>En aquest segon exemple ja se&#39;ns introdueix una aplicació amb una arquitectura més semblant a l&#39;aplicació final. Aquesta fa ús de base de dades i diverses rutes de peticions.</p>
+
+<p>Farem una llista de tasques que puguin estar en 2 estats: PENDENT o FET.</p>
+
+<p>Primer necessitem baixar-nos i descomprimir l&#39;arxiu del projecte al directori de pràctiques:</p>
+
+<pre><code>~/practiques$ curl http://soft0.upc.edu/dat/practica3/exemples/tasks.zip &gt; tasks.zip
+~/practiques$ unzip tasks.zip
+~/practiques$ cd tasks
+~/practiques/tasks$ ls
+    bin build src</code></pre>
+
+<p>L&#39;estat de la app es manté en una bbdd, la qual s&#39;ha de crear amb les seves taules.</p>
+
+<p>Utilitzem SQLite. Per crear-la executem <code>~/practiques/tasks$ bin/init-db</code>.</p>
+
+<p>Per compilar i executar l&#39;aplicació tenim el script <code>bin/make-tasks</code>, on hi podem veure:</p>
+
+<pre><code>#!/bin/bash
+
+cd $(dirname $0)/..
+
+# -- Configuration variables:
+#       src_dirs
+#       main_file
+#       build_dir
+#       cgi_dir
+#       exe_file
+
+src_dirs=src/haskell
+main_file=src/haskell/Main.hs
+
+build_dir=build
+
+cgi_dir=~/public_html/practica3
+exe_file=$cgi_dir/tasks.cgi
+
+test -d $cgi_dir || mkdir -p $cgi_dir
+source ~WEBprofe/usr/share/bin/do-make-exe.sh
+chmod 700 $exe_file</code></pre>
+
+<p>Per executar aquest arxiu fem <code>~/practiques/tasks$ bin/make-tasks</code> i veiem com s&#39;instal·la el programa al directori de la practica3.</p>
+
+<p>Si ens fixem en el fitxer App.hs, podem veure com en aquest tenim varies rutes de peticions:</p>
+
+<pre><code>instance Dispatch Tasks where
+    dispatch = routing
+            $ route ( onStatic [] ) HomeR
+                [ onMethod &quot;GET&quot; getHomeR
+                , onMethod &quot;POST&quot; postHomeR
+                ]
+            &lt;||&gt; routeSub (onStatic [&quot;auth&quot;]) AuthR getAuth</code></pre>
+
+<figure><img src="DraggedImage-1.png"/></figure>
+
+<h2>Fòrum</h2>
+
+<p>Bé ara que ja hem vist com funcionen els exemples previs, passem a la pràctica.</p>
+
+<p>Primer cal que descomprimim l&#39;arxiu del projecte a la nostre zona d&#39;usuari:</p>
+
+<pre><code>~/practiques$ curl http://soft0.upc.edu/dat/practica3/forums.zip &gt; forums.zip
+~/practiques$ unzip forums.zip
+~/practiques$ cd forums
+~/practiques/forums$ ls
+	bin src</code></pre>
+
+<p>Per compilar la pràctica 3, com de costum tenim un script <code>bin/make-forums</code> que compil·la i instal·la el programa <code>forums.cgi</code> al directori <code>public_html/practica3</code>.</p>
+
+<h3>Creació de la db</h3>
+
+<p>El SQL per crear la db del projecte es troba a <code>src/qlite/create-db.sql</code>. Aquest SQL té les taules necessàries del model (users, forums, topics i posts), i insereix les dades d&#39;un fòrum per poder començar a fer proves.</p>
+
+<p>Si entrem a l&#39;arxiu create-db.sql, podem canviar els diversos camps que tenim, com els usuaris, els forums, etc. Jo els he deixat tal i com estan, ja que ja havia executat els següents passos:</p>
+
+<pre><code>~/practiques/forums$ mkdir ~/sqlite-dbs
+~/practiques/forums$ chmod 700 ~/sqlite-dbs
+~/practiques/forums$ sqlite3 ~/sqlite-dbs/forums.db &lt; src/sqlite/create-db.sql</code></pre>
+
+<p>Ens ha creat un directori <code>sqlite-dbs</code> amb el fitxer <code>forums.db</code> al nostre usuari.</p>
+
+<p><em>NOTA: Per poder accedir bé a la BD, hem de modificar el fitxer <strong>App.hs</strong> i afegir el nostre usuari a la ruta per trobar la BD: <code>forumsDbName = &quot;/home/pract/LabDAT/ldatusr14/sqlite-dbs/forums.db&quot;</code></em></p>
+
+<h3>Codi font</h3>
+
+<p>Al directori <code>/practiques/forums/src/haskell</code> podem veure tots els fitxers que formen part del codi principal.</p>
+
+<p>Utilitzarem el framework DatFw.</p>
+
+<p>Se&#39;ns demana acabar de completar els fitxers <strong>Handler</strong> i <strong>View</strong> principalment, ja que els altres estan pràcticament complets.</p>
+
+<p>El fitxer Handler és el que conté les accions a executar quan es rep una petició.</p>
+
+<h4>Handler.hs</h4>
+
+<pre><code>getHomeR :: HandlerFor ForumsApp Html
+getHomeR = do
+    -- Get authenticated user
+    mbuser &lt;- maybeAuth
+    -- Get a fresh form
+    fformw &lt;- generateAFormPost newForumForm
+    -- Return HTML content
+    defaultLayout $ homeView mbuser fformw
+
+postHomeR :: HandlerFor ForumsApp Html
+postHomeR = do
+    user &lt;- requireAuth
+    (fformr, fformw) &lt;- runAFormPost newForumForm
+    case fformr of
+        FormSuccess newtheme -&gt; do
+            now &lt;- liftIO getCurrentTime
+            runDbAction $ addForum newtheme now
+            redirect HomeR
+        _ -&gt;
+            defaultLayout $ homeView (Just user) fformw
+
+getForumR :: ForumId -&gt; HandlerFor ForumsApp Html
+getForumR fid = do
+    -- Get requested forum from data-base.
+    -- Short-circuit (responds immediately) with a &#39;Not found&#39; status if forum don&#39;t exist
+    forum &lt;- runDbAction (getForum fid) &gt;&gt;= maybe notFound pure
+    mbuser &lt;- maybeAuth
+    -- Other processing (forms, ...)
+    tformw &lt;- generateAFormPost newTopicForm
+    -- Return HTML content
+    defaultLayout $ forumView mbuser (fid, forum) tformw
+
+postForumR :: ForumId -&gt; HandlerFor ForumsApp Html
+postForumR fid = do
+    user &lt;- requireAuth
+    forum &lt;- runDbAction (getForum fid) &gt;&gt;= maybe notFound pure
+    (tformr, tformw) &lt;- runAFormPost newTopicForm
+    case tformr of
+        FormSuccess newtopic -&gt; do
+            now &lt;- liftIO getCurrentTime
+            runDbAction $ addTopic fid (fst user) newtopic now
+            redirect (ForumR fid)
+        _ -&gt;
+            defaultLayout (forumView (Just user) (fid, forum) tformw)
+
+getTopicR :: TopicId -&gt; HandlerFor ForumsApp Html
+getTopicR tid = do
+    -- Get Topic
+    topic &lt;- runDbAction (getTopic tid) &gt;&gt;= maybe notFound pure
+    -- Get authenticated user
+    mbuser &lt;- maybeAuth
+    -- Get a fresh form
+    rformw &lt;- generateAFormPost newReplyForm
+    -- Return HTML content
+    defaultLayout (topicView mbuser (tid, topic) rformw)
+
+getDeleteTopicR :: TopicId -&gt; HandlerFor ForumsApp Html
+getDeleteTopicR tid = do
+    user &lt;- requireAuth
+    topic &lt;- runDbAction (getTopic tid) &gt;&gt;= maybe notFound pure
+    runDbAction $ deleteTopic (tdForumId topic) tid
+    redirect (ForumR (tdForumId topic))
+
+getDeletePostR :: PostId -&gt; HandlerFor ForumsApp Html
+getDeletePostR pid = do
+    user &lt;- requireAuth
+    post &lt;- runDbAction (getPost pid) &gt;&gt;= maybe notFound pure
+    topic &lt;- runDbAction (getTopic (pdTopicId post)) &gt;&gt;= maybe notFound pure
+    runDbAction $ deletePost (tdForumId topic) (pdTopicId post) pid
+    redirect (TopicR (pdTopicId post))
+
+postTopicR :: TopicId -&gt; HandlerFor ForumsApp Html
+postTopicR tid = do
+    user &lt;- requireAuth
+    topic &lt;- runDbAction (getTopic tid) &gt;&gt;= maybe notFound pure
+    (rformr, rformw) &lt;- runAFormPost newReplyForm
+    case rformr of
+        FormSuccess newreply -&gt; do
+            now &lt;- liftIO getCurrentTime
+            runDbAction $ addReply (tdForumId topic) tid (fst user) newreply now
+            redirect (TopicR tid)
+        _ -&gt;
+            defaultLayout (topicView (Just user) (tid, topic) rformw)</code></pre>
+
+<p>Veiem com hem afegit <code>getDeleteTopicR</code>i <code>getDeletePostR</code> ja que així en cas de ser l&#39;administrador o moderador podriem eliminar topics i posts.</p>
+
+<h4>View.hs</h4>
+
+<p>Veiem les 3 vistes que tindrem al nostre cgi:</p>
+
+<pre><code>homeView :: Maybe (UserId, UserD) -&gt; Widget ForumsApp -&gt; Widget ForumsApp
+homeView mbuser fformw = do
+    let isAdmin = maybe False (udIsAdmin . snd) mbuser
+    forums &lt;- runDbAction getForumList
+    $(widgetTemplFile $ &quot;src/templates/home.html&quot;)
+
+forumView :: Maybe (UserId, UserD) -&gt; (ForumId, ForumD) -&gt; Widget ForumsApp -&gt; Widget ForumsApp
+forumView mbuser (fid, forum) tformw = do
+    let isMod = maybe False ((==) (fdModeratorId forum) . fst) mbuser
+    topics &lt;- runDbAction $ getTopicList fid
+    $(widgetTemplFile $ &quot;src/templates/forum.html&quot;)
+
+topicView :: Maybe (UserId, UserD) -&gt; (TopicId, TopicD) -&gt; Widget ForumsApp -&gt; Widget ForumsApp
+topicView mbuser (tid, topic) rformw = do
+    forum &lt;- runDbAction (getForum (tdForumId topic)) &gt;&gt;= maybe notFound pure
+    let isMod = maybe False ((==) (fdModeratorId forum) . fst ) mbuser
+    replies &lt;- runDbAction $ getPostList tid
+    $(widgetTemplFile $ &quot;src/templates/topic.html&quot;)</code></pre>
+
+<h4>Templates</h4>
+
+<p>Finalment veiem les interfícies que tindrem per visualitzar el cgi. Aquestes estan separades en 3 fitxers HTML, cadascun relacionat amb les funcionalitats vistes anteriorment.</p>
+
+<p>Per a implementar bé les 3 vistes, m&#39;he basat en el fitxer home.html que ja se&#39;ns dona fet:</p>
+
+<p><strong>home.html</strong>:</p>
+
+<pre><code>&lt;h1&gt;Marc Bosch - Pràctica 3 DAT - Creació d&#39;un Fòrum&lt;/h2&gt;
+
+&lt;table class=&quot;table table-striped table-condensed&quot;&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Categoria&lt;/th&gt;&lt;th&gt;Títol&lt;/th&gt;&lt;th&gt;Moderador&lt;/th&gt;&lt;th&gt;Creat&lt;/th&gt;&lt;th&gt;Topics&lt;/th&gt;&lt;th&gt;Posts&lt;/th&gt;&lt;th&gt;Última activitat&lt;/tH&gt;&lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;
+  $forall{ (fid, forum) &lt;- forums }
+      &lt;tr&gt;
+        &lt;td&gt;#{ fdCategory forum }&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;@{ForumR fid}&quot;&gt;#{ fdTitle forum }&lt;/a&gt;&lt;/td&gt;
+        &lt;td&gt;^{ uidNameWidget (fdModeratorId forum) }&lt;/td&gt;
+        &lt;td&gt;^{ dateWidget (fdCreated forum) }&lt;/td&gt;
+        &lt;td&gt;#{ fdTopicCount forum }&lt;/td&gt;
+        &lt;td&gt;#{ fdPostCount forum }&lt;/td&gt;
+        &lt;td&gt;$maybe{ lastpid &lt;- fdLastPostId forum } ^{pidPostedWidget lastpid} $end &lt;/td&gt;
+      &lt;/tr&gt;
+  $end
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+$if{ isAdmin }
+&lt;h4&gt;Afegeix un forum nou&lt;/h4&gt;
+&lt;div class=&quot;row&quot;&gt;
+  &lt;div class=&quot;col-sm-2&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;col-sm-10&quot;&gt;
+    &lt;form role=&quot;form&quot; method=&quot;POST&quot; action=&quot;@{HomeR}&quot;&gt;
+      ^{fformw}
+      &lt;button type=&quot;submit&quot; class=&quot;btn btn-success&quot;&gt;Nou fòrum&lt;/button&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+$end</code></pre>
+
+<p><strong>forum.html</strong></p>
+
+<pre><code>&lt;p&gt;&lt;a href=&quot;@{HomeR}&quot;&gt;Torna a la pàgina principal&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1&gt;Llistat de Fòrums&lt;/h1&gt;
+
+&lt;table class=&quot;table table-striped table-condensed&quot;&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Categoria&lt;/th&gt;&lt;th&gt;Títol&lt;/th&gt;&lt;th&gt;Moderador&lt;/th&gt;&lt;th&gt;Creat&lt;/th&gt;&lt;th&gt;Topics&lt;/th&gt;&lt;th&gt;Posts&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td&gt;#{ fdCategory forum }&lt;/td&gt;&lt;td&gt;#{ fdTitle forum }&lt;/td&gt;
+        &lt;td&gt;^{ uidNameWidget (fdModeratorId forum) }&lt;/td&gt;
+        &lt;td&gt;^{ dateWidget (fdCreated forum) }&lt;/td&gt;
+        &lt;td&gt;#{ fdTopicCount forum }&lt;/td&gt;
+        &lt;td&gt;#{ fdPostCount forum } &lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class=&quot;bg-light&quot;&gt;#{ fdDescription forum }&lt;/div&gt;
+
+&lt;p&gt;Topics:&lt;/p&gt;
+&lt;table class=&quot;table table-striped table-condensed&quot;&gt;
+  &lt;thead&gt;&lt;tr&gt;&lt;th&gt;Qüestió&lt;/th&gt;&lt;th&gt;Per / Iniciada&lt;/th&gt;&lt;th&gt;Posts&lt;/th&gt;&lt;th&gt;Última activitat&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+  &lt;tbody&gt;
+    $forall{ (tid, topic) &lt;- topics }
+      &lt;tr&gt;
+        &lt;td&gt;&lt;a href=&quot;@{TopicR tid}&quot;&gt;&lt;strong&gt;#{ tdSubject topic }&lt;/strong&gt;&lt;/a&gt;&lt;/td&gt;
+        &lt;td&gt;^{ uidNameWidget (tdUserId topic) } / &lt;span class=&quot;small&quot;&gt;^{ dateWidget (tdStarted topic) }&lt;/span&gt;&lt;/td&gt;
+        &lt;td&gt;#{ tdPostCount topic }&lt;/td&gt;
+        &lt;td&gt;$maybe{ lastpid &lt;- tdLastPostId topic } ^{pidPostedWidget lastpid} $end &lt;/td&gt;
+        $if{ isMod }
+        &lt;td&gt;&lt;a href=&quot;@{DeleteTopicR tid}&quot;&gt;Remove&lt;/a&gt;&lt;/td&gt;
+        $end
+      &lt;/tr&gt;
+    $end
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+$if{ isJust mbuser }
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;col-sm-12&quot;&gt;
+      &lt;form role=&quot;form&quot; method=&quot;POST&quot; action=&quot;@{ForumR fid}&quot;&gt;
+        ^{tformw}
+        &lt;button type=&quot;submit&quot; class=&quot;btn btn-success&quot;&gt;Nou Tòpic&lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+$end</code></pre>
+
+<p><strong>topic.html</strong></p>
+
+<pre><code>&lt;h1&gt;Topics&lt;/h2&gt;
+&lt;p&gt;&lt;i&gt;^{ uidNameWidget (tdUserId topic) } - ^{ dateWidget (tdStarted topic)}&lt;/i&gt;&lt;/p&gt;
+&lt;h4&gt;&lt;strong&gt;#{ tdSubject topic}&lt;/strong&gt;&lt;/h4&gt;
+&lt;br&gt;
+&lt;h4&gt;Respostes:&lt;/h4&gt;
+&lt;table class=&quot;table table-striped table-condensed&quot;&gt;
+    &lt;thead&gt;&lt;tr&gt;&lt;th&gt;User&lt;/th&gt;&lt;th&gt;Message&lt;/th&gt;&lt;th&gt;Date&lt;/th&gt;$if{ isMod }&lt;th&gt;Remove&lt;/th&gt;$end&lt;/tr&gt;&lt;/thead&gt;
+    &lt;tbody&gt;
+    $forall{ (rid, reply) &lt;- replies }
+        &lt;tr&gt;
+        &lt;td&gt;&lt;strong&gt;^{ uidNameWidget (pdUserId reply) }&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;#{ pdMessage reply }&lt;/td&gt;
+        &lt;td&gt;&lt;span class=&quot;small&quot;&gt;^{ dateWidget (pdPosted reply) }&lt;/span&gt;&lt;/td&gt;
+        $if{ isMod }
+        &lt;td&gt;&lt;a href=&quot;@{DeletePostR rid}&quot;&gt;Elimina&lt;/a&gt;&lt;/th&gt;
+        $end
+        &lt;/tr&gt;
+    $end
+    &lt;/tbody&gt;
+&lt;/table&gt;
+
+
+$if{ isJust mbuser } &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;col-sm-12&quot;&gt;
+        &lt;form role=&quot;form&quot; method=&quot;POST&quot; action=&quot;@{TopicR tid}&quot;&gt;
+            ^{rformw}
+            &lt;button type=&quot;submit&quot; class=&quot;btn btn-success&quot;&gt;Nova Resposta al Tòpic&lt;/button&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+$end</code></pre>
+
+<p><em>Nota final: Per a poder tenir les funcionalitats d&#39;eliminar tòpics i posts, he hagut de modificar també el fitxer <strong>Found.hs</strong> afegint les dues rutes necessaries. Adjunto el codi modificat del fitxer Found.hs a sota:</em></p>
+
+<pre><code>instance RenderRoute ForumsApp where
+    data Route ForumsApp =
+                  HomeR | ForumR ForumId | TopicR TopicId
+                  | DeletePostR PostId | DeleteTopicR TopicId | AuthR (Route Auth)
+
+    renderRoute HomeR   = ([], [])
+    renderRoute (ForumR tid) = ([&quot;forums&quot;,toPathPiece tid], [])
+    renderRoute (TopicR qid) = ([&quot;topics&quot;,toPathPiece qid], [])
+    renderRoute (DeletePostR dpid) = ([&quot;delpost&quot;,toPathPiece dpid], [])
+    renderRoute (DeleteTopicR dtid) = ([&quot;deltopic&quot;,toPathPiece dtid], [])
+    renderRoute (AuthR authr) = let (path,qs) = renderRoute authr in (&quot;auth&quot;:path, qs)</code></pre>
+
+<hr />
+
+<h2>Resultat Final</h2>
+
+<p>El podeu veure mitjançant el següent link: <a href="[http://soft0.upc.edu/~ldatusr14/practica3/forums.cgi/]">http://soft0.upc.edu/~ldatusr14/practica3/forums.cgi/</a></p>
+
+<p>Adjunto algunes fotos de les funcionalitats:</p>
+
+<figure><img src="DraggedImage-2.png"/></figure>
+
+<figure><img src="DraggedImage-3.png"/></figure>
+
+<p>La següent foto fixeu-vos en que l’usuari és el <strong>usuari1</strong>, i també té la funcionalitat d’eliminar el post, dins el tòpic:</p>
+
+<figure><img src="DraggedImage-4.png"/></figure>
+
+<p>En canvi si accedim amb l’<strong>usuari2</strong>, el qual NO és moderador, veiem com no ens deixa eliminar res:</p>
+
+<figure><img src="DraggedImage-5.png"/></figure>
+
+<p>Així com tampoc ens deixa crear cap més tòpic (amb l’usuari1 tampoc podem crear cap tòpic, només posts dins d’aquests):</p>
+
+<figure><img src="DraggedImage-6.png"/></figure>
+
+</body>
+</html>
+
