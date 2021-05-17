@@ -423,6 +423,21 @@ $if{ isJust mbuser } <div class="row">
 $end
 ```
 
+*Nota final: Per a poder tenir les funcionalitats d'eliminar tòpics i posts, he hagut de modificar també el fitxer **Found.hs** afegint les dues rutes necessaries. Adjunto el codi modificat del fitxer Found.hs a sota:*
+```
+instance RenderRoute ForumsApp where
+    data Route ForumsApp =
+                  HomeR | ForumR ForumId | TopicR TopicId
+                  | DeletePostR PostId | DeleteTopicR TopicId | AuthR (Route Auth)
+
+    renderRoute HomeR   = ([], [])
+    renderRoute (ForumR tid) = (["forums",toPathPiece tid], [])
+    renderRoute (TopicR qid) = (["topics",toPathPiece qid], [])
+    renderRoute (DeletePostR dpid) = (["delpost",toPathPiece dpid], [])
+    renderRoute (DeleteTopicR dtid) = (["deltopic",toPathPiece dtid], [])
+    renderRoute (AuthR authr) = let (path,qs) = renderRoute authr in ("auth":path, qs)
+```
+
 ----
 
 ## Resultat Final
